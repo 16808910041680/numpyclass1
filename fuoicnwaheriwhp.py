@@ -1,32 +1,46 @@
+import numpy as np
 import random
 import time
 import sys
-key = ""
+CURSOR_UP_ONE = '\x1b[1A'
+ERASE_LINE = '\x1b[2K'
 key_shuffle = ['apple', 'banana', 'cherry', 'date', 'elderberry', 'fig', 'grape', 'honeydew', 'kiwi', 'lemon', 'mango', 'nectarine', 'orange', 'papaya', 'quince']
 print("Original list:")
 print(key_shuffle)
 print ("Correct Key:")
-def pick_random_fruit(keys):
-    key = random.choice(keys)
-    return key
-print(pick_random_fruit(key_shuffle))
+key = random.choice(key_shuffle)
+print (key)
+time.sleep (5)
 print ("Shuffling!")
+def delete_last_line():
+    sys.stdout.write(CURSOR_UP_ONE)
+    sys.stdout.write(ERASE_LINE)
+    sys.stdout.flush()
 
 for i in range (50):
     random.shuffle(key_shuffle)
-    print (key_shuffle)
-    sys.stdout.write("\033[F\033[K") 
+    print (key_shuffle) 
     time.sleep(0.2)
+    delete_last_line()
+    delete_last_line()
 
 
 print ("Final shuffled list! Find the key!")
-time.sleep (2)
+print (key_shuffle)
+time.sleep (3)
+delete_last_line()
+delete_last_line()
 
-sys.stdout.write("\033[F\033[K") 
-input ("Tell me where is the key in the string? Number from 1 to 15:")
-print("You selected:", key_shuffle[int(input()) - 1])
+keyguess = input ("Tell me where is the key in the string? Number from 1 to 15:")
+print("You selected:", keyguess)
+index = key_shuffle.index(key)
+keyguess = int(keyguess)
+index = int(index)
+index = index + 1
 
-if input == key:
-    print("Correct! You found the key:", key)
+
+
+if keyguess == index:
+    print("Correct! You found the key in spot ", index)
 else:
-    print("Wrong! The correct key was:", key)
+    print("Wrong! The correct key was in spot", index)
